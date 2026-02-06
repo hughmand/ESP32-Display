@@ -9,7 +9,7 @@
             {
                 Pixels[i] = new bool[8];
             }
-            UpdateFromState();
+            RedrawFromState();
 
             var hours1 = ChildElements.AddElement("hours1", new LargeNumberElement(_hours[0]));
             var hours2 = ChildElements.AddElement("hours2", new LargeNumberElement(_hours[1]));

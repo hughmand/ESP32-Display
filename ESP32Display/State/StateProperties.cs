@@ -31,6 +31,11 @@
 
         public static implicit operator char(CharState state) => state.Value;
 
+        public CharState() { }
+        public CharState(char c)
+        {
+            SetValue(c);
+        }
         public void SetValue(char state)
         {
             Value = state;

@@ -7,10 +7,10 @@
         public ThreeByThreeCharacterElement(CharState state) 
         {
             _charState = state;
-            UpdateFromState();
+            RedrawFromState();
         }
 
-        public void UpdateFromState()
+        public void RedrawFromState()
         {
             Pixels = new bool[3][];
             switch (_charState.Value)
@@ -205,22 +205,6 @@
             Pixels = RotateArray(Pixels);
         }
 
-        protected bool[][] RotateArray(bool[][] pixels)
-        {
-            bool[][] rotatedPixels = new bool[3][];
-            for (int i = 0; i < 3; i++)
-            {
-                rotatedPixels[i] = new bool[3];
-            }
-
-            for (int x = 0; x < 3; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                {
-                    rotatedPixels[y][x] = pixels[2 - x][y];
-                }
-            }
-            return rotatedPixels;
-        }
+        
     }
 }

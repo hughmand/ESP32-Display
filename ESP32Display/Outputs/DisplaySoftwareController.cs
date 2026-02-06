@@ -10,33 +10,23 @@
         DisplayTest = 15,
     }
 
-    /// <summary>
-    /// Exposes methods for interacting with the external LED display
-    /// </summary>
-    public interface IDisplaySoftwareController
+    public class DisplaySoftwareController : DisplayHardwareController
     {
-        /// <summary>
-        /// Send commands to setup the LED display and disable testing modes and unwanted features.
-        /// </summary>
-        void ConfigureHardware();
-        /// <summary>
-        /// Send the current display state to the LED display
-        /// </summary>
-        void SendToDisplay();
-        /// <summary>
-        /// Change the brightness of the LED display
-        /// </summary>
-        /// <param name="brightness">Brightness to set. Will be adjusted to within display limits</param>
-        void AdjustBrightness(int brightness);
-    }
-
-    public class DisplaySoftwareController : DisplayHardwareController, IDisplaySoftwareController
-    {
-        private DisplayState _displayState;
-
-        public DisplaySoftwareController(int dataPinNumber, int csPinNumber, int clkPinNumber, DisplayState displayState) : base(dataPinNumber, csPinNumber, clkPinNumber)
+        public Screen Screen
         {
-            _displayState = displayState;
+            get => _screen;
+            set
+            {
+                if (Screen is not null) _lastScreen = Screen;
+                _screen = value;
+            }
+        }
+        private Screen _screen;
+        private Screen _lastScreen;
+
+        public DisplaySoftwareController(int dataPinNumber, int csPinNumber, int clkPinNumber) : base(dataPinNumber, csPinNumber, clkPinNumber)
+        {
+            //Intentionally empty
         }
 
         public void AdjustBrightness(int brightness)
@@ -44,10 +34,9 @@
             if (brightness > (int)Intensity.MaximumBrightness) brightness = (int)Intensity.MaximumBrightness;
             if (brightness < (int)Intensity.MinimumBrightness) brightness = (int)Intensity.MinimumBrightness;
             PrepareAndSendInstructionForAllScreens(Command.Intensity, brightness);
-            _displayState.Brightness = (byte)brightness;
         }
 
-        public void ConfigureHardware()
+        protected void ConfigureHardware()
         {
             PrepareAndSendInstructionForAllScreens(Command.DisplayTest, 0);
             PrepareAndSendInstructionForAllScreens(Command.ScanLimit, 7);
@@ -62,15 +51,15 @@
             SendCommand(instruction);
         }
 
-        public void SendToDisplay()
+        protected void SendToDisplay()
         {
-            var newScreen = _displayState.Screen;
+            var newScreen = Screen;
 
             
             var pixels = newScreen.Pixels;
             var bytePixels = BoolToByteArray(pixels);
             
-            bool[] rowChanged = _displayState.Screen.CompareRows(_displayState.LastScreen);
+            bool[] rowChanged = Screen.CompareRows(_lastScreen);
 
             switch (Configuration.RefreshPattern)
             {

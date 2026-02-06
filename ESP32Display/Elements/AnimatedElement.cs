@@ -27,7 +27,7 @@ namespace ESP32Display
             _state++;
         }
 
-        public void UpdateFromState()
+        public void RedrawFromState()
         {
             switch (_symbol)
             {

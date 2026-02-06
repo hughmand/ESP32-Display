@@ -7,17 +7,25 @@
     {
         protected IInputCollection _inputCollection { get; private set; }
         protected IPulseOutput _buzzer { get; private set; }
-        protected DisplayState _displayState { get; private set; }
         protected SystemState _systemState { get; private set; }
+        protected Worker _parentWorker { get; private set; }
+        protected DisplayManager _displayManager { get; private set; }
 
-        protected Worker(IPulseOutput buzzer, IInputCollection inputCollection, DisplayState displayState, SystemState systemState)
+        protected Worker(DisplayManager displayManager, SystemState systemState, Worker parentWorker, IPulseOutput buzzer, IInputCollection inputCollection)
         {
             _inputCollection = inputCollection;
-            _displayState = displayState;
             _systemState = systemState;
             _buzzer = buzzer;
+            _parentWorker = parentWorker;
+            _displayManager = displayManager;
         }
 
         public abstract void Run();
+
+        protected virtual void Exit()
+        {
+            _inputCollection.UnsubscribeAll();
+            _parentWorker.Run();
+        }
     }
 }

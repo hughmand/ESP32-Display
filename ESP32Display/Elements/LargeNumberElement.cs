@@ -20,10 +20,10 @@
             {
                 Pixels[i] = new bool[8];
             }
-            UpdateFromState();
+            RedrawFromState();
         }
 
-        public void UpdateFromState() {
+        public void RedrawFromState() {
             TopBar = false;
             BottomBar = false;
             MiddleBar = false;

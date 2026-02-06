@@ -2,43 +2,75 @@
 {
     public class MainWorker : Worker
     {
-        HomeScreen _homeScreen = new HomeScreen();
-        ClockScreen _clockScreen = new ClockScreen();
+        MenuItem[] _menuItems;
+        MenuScreen _menuScreen = new MenuScreen();
+        int _currentItemIndex;
 
-        public MainWorker(IPulseOutput buzzer, IWirelessController wirelessController, IInputCollection inputCollection, DisplayState displayState, SystemState systemState) : base(buzzer, inputCollection, displayState, systemState)
-        {  
+        private class MenuItem
+        {
+            public Worker Worker;
+            public Screen Screen;
+            public string Text;
+        }
+
+        public MainWorker(DisplayManager displayManager, SystemState systemState, IPulseOutput buzzer, IInputCollection inputCollection) : base(displayManager, systemState, null, buzzer, inputCollection)
+        {
+            _menuItems = new MenuItem[2];
+            _menuItems[0] = new MenuItem
+            {
+                Text = "Clock",
+                Worker = null,
+                Screen = new ClockScreen()
+            };
+
+            _menuItems[1] = new MenuItem
+            {
+                Text = "Snake",
+                Screen = null,
+                Worker = new SnakeWorker(_displayManager, systemState, this, _buzzer, _inputCollection)
+            };
         }
 
         public override void Run()
         {
-            //TODO: Main functionality:
-            //Snake game
-            //Variable brightness
-            //Wifi control
-            //Input symbols and control scheme configuration
-            Start();
+            _inputCollection.UnsubscribeAll();
+            _displayManager.Screen = _menuScreen;
+            ChangeMenuItem(_currentItemIndex);
+            _inputCollection.Subscribe(InputLabel.Enter, ActivateMenuItem);
+            _inputCollection.Subscribe(InputLabel.Up, () => ChangeMenuItem(++_currentItemIndex));
+            _inputCollection.Subscribe(InputLabel.Down, () => ChangeMenuItem(--_currentItemIndex));
         }
 
-        private void Start()
+        private void ChangeMenuItem(int index)
         {
-            _homeScreen.SetText("Clock");
-            _displayState.Screen = _homeScreen;
-            _inputCollection.Subscribe(InputLabel.Enter, ClockScreen);
+            if (index >= _menuItems.Length) index = 0;
+            if (index < 0) index = _menuItems.Length-1;
+            var item = _menuItems[index];
+            _menuScreen.SetText(item.Text);
+            _currentItemIndex = index;
         }
 
-        private void HomeScreen()
+        private void ActivateMenuItem()
         {
-            _inputCollection.Unsubscribe(InputLabel.Enter, HomeScreen);
-            _displayState.Screen = _homeScreen;
-            _homeScreen.SetText("Clock");
-            _inputCollection.Subscribe(InputLabel.Enter, ClockScreen);
+            var item = _menuItems[_currentItemIndex];
+            //Depending on what the item is, it may require a further worker - if not, just set the screen.
+            if (item.Worker is not null)
+            {
+                _inputCollection.UnsubscribeAll();
+                item.Worker.Run();
+            } 
+            else
+            {
+                _inputCollection.UnsubscribeAll();
+                _displayManager.Screen = item.Screen;
+                _inputCollection.Subscribe(InputLabel.Enter, Run);
+            }
         }
 
-        private void ClockScreen()
+        protected override void Exit()
         {
-            _displayState.Screen = _clockScreen;
-            _inputCollection.Unsubscribe(InputLabel.Enter, ClockScreen);
-            _inputCollection.Subscribe(InputLabel.Enter, HomeScreen);
+            _inputCollection.UnsubscribeAll();
+            return;
         }
     }
 }

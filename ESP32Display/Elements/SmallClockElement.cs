@@ -10,7 +10,7 @@
                 Pixels[i] = new bool[3];
             }
 
-            UpdateFromState();
+            RedrawFromState();
 
             var hours1 = ChildElements.AddElement("hours1", new ThreeByThreeCharacterElement(_hours[0]));
             var hours2 = ChildElements.AddElement("hours2", new ThreeByThreeCharacterElement(_hours[1]));

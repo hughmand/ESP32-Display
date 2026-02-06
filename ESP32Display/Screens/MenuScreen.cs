@@ -2,12 +2,11 @@
 
 namespace ESP32Display
 {
-    public class HomeScreen : Screen
+    public class MenuScreen : Screen
     {
-
         CharState[] _text;
 
-        public HomeScreen()
+        public MenuScreen()
         {
             _text = new CharState[8]; //Cannot be longer than 8 characters
             for (int i = 0; i < 8; i++)
@@ -16,12 +15,14 @@ namespace ESP32Display
             }
             var clock = Elements.AddElement("clock", new SmallClockElement(Configuration.TwentyFourHourClockFormat));
             var text = Elements.AddElement("text", new TextElement(_text));
-            //var leftArrow = Elements.AddElement("leftArrow",);
+            var upArrow = Elements.AddElement("upArrow", new SymbolElement(StaticSymbol.UpArrow));
+            var downArrow = Elements.AddElement("downArrow", new SymbolElement(StaticSymbol.DownArrow));
 
             Elements.SetElementPosition(clock, 0, 5);
             Elements.SetElementPosition(text, 0, 0);
+            Elements.SetElementPosition(upArrow, 28, 5);
+            Elements.SetElementPosition(downArrow, 28, 1);
         }
-
 
         public void SetText(string text)
         {

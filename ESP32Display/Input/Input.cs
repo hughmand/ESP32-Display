@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ESP32Display
+﻿namespace ESP32Display
 {
     public delegate void InputEventHandler();
 
@@ -8,17 +6,30 @@ namespace ESP32Display
     {
         public event InputEventHandler InputTriggered;
 
-        protected void OnInput()
+        protected void TriggerInput()
         {
             InputTriggered?.Invoke();
         }
 
-        public void UnsubscribeAll()
+        public void Subscribe(InputEventHandler handler)
         {
-            Delegate[] delegates = InputTriggered?.GetInvocationList();
-            foreach (InputEventHandler delegator in delegates)
+            InputTriggered += handler;
+        }
+
+        public void Unsubscribe(InputEventHandler handler)
+        {
+            InputTriggered -= handler;
+        }
+
+        public void UnsubscribeAllHandlers()
+        {
+            var delegates = InputTriggered?.GetInvocationList();
+            if (delegates is not null)
             {
-                InputTriggered -= delegator;
+                foreach (InputEventHandler del in delegates)
+                {
+                    InputTriggered -= del;
+                }
             }
         }
     }

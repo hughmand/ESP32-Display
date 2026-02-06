@@ -122,7 +122,7 @@ namespace ESP32Display
                     if (element is not null && element is IStateElement)
                     {
                         var stateElement = element as IStateElement;
-                        stateElement.UpdateFromState();
+                        stateElement.RedrawFromState();
                     }
 
                     if (element.ChildElements is not null)

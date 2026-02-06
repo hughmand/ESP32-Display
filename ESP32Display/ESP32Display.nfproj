@@ -12,19 +12,26 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>NFApp1</RootNamespace>
-    <AssemblyName>NFApp1</AssemblyName>
+    <RootNamespace>ESP32Display</RootNamespace>
+    <AssemblyName>ESP32Display</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>direct</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Outputs\DisplayManager.cs" />
     <Compile Include="Elements\ClockElement.cs" />
     <Compile Include="Elements\ElementCollection.cs" />
     <Compile Include="Elements\ElementException.cs" />
+    <Compile Include="Elements\SymbolElement.cs" />
     <Compile Include="Elements\LargeClockElement.cs" />
     <Compile Include="Elements\LargeNumberElement.cs" />
     <Compile Include="Elements\SmallClockElement.cs" />
     <Compile Include="Elements\TextElement.cs" />
+    <Compile Include="Input\Button.cs" />
     <Compile Include="Outputs\PulseOutput.cs" />
     <Compile Include="Elements\AnimatedElement.cs" />
     <Compile Include="Input\Input.cs" />
@@ -33,18 +40,28 @@
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\ThreeByThreeCharacterElement.cs" />
     <Compile Include="Screens\ClockScreen.cs" />
-    <Compile Include="Screens\HomeScreen.cs" />
+    <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="State\DisplayState.cs" />
+    <Compile Include="Snake\NewGameScreen.cs" />
+    <Compile Include="Snake\PauseScreen.cs" />
+    <Compile Include="Snake\SnakeElement.cs" />
+    <Compile Include="Snake\SnakeScreen.cs" />
+    <Compile Include="Snake\CoordinatePoint.cs" />
+    <Compile Include="Snake\SnakeException.cs" />
+    <Compile Include="Snake\Orchard.cs" />
+    <Compile Include="Snake\Snake.cs" />
+    <Compile Include="Snake\SnakeGame.cs" />
+    <Compile Include="Snake\SnakeSettings.cs" />
     <Compile Include="State\StateProperties.cs" />
     <Compile Include="State\SystemState.cs" />
-    <Compile Include="WirelessController.cs" />
+    <Compile Include="Wireless\WirelessController.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Outputs\DisplayHardwareController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Outputs\DisplaySoftwareController.cs" />
     <Compile Include="Workers\MainWorker.cs" />
+    <Compile Include="Workers\SnakeWorker.cs" />
     <Compile Include="Workers\Worker.cs" />
   </ItemGroup>
   <ItemGroup>

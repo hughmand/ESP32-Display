@@ -21,7 +21,7 @@ namespace ESP32Display
             }
         }
 
-        public void NewFrame()
+        public void DrawNewFrame()
         {
             Elements.NewFrame();
             DrawElements();

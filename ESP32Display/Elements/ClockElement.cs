@@ -20,7 +20,7 @@ namespace ESP32Display
             _twentyFourHourTime = twentyFourHourTime;
         }
 
-        public void UpdateFromState()
+        public void RedrawFromState()
         {
             var hourString = DateTime.UtcNow.ToString(_twentyFourHourTime ? "HH" : "hh");
             var minuteString = DateTime.UtcNow.ToString("mm");

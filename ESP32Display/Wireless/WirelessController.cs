@@ -1,19 +1,15 @@
 ﻿using nanoFramework.Networking;
-
-using System.Diagnostics;
 using System.Net;
-using System.Text;
 using System.Threading;
 
 namespace ESP32Display
 {
-    public interface IWirelessController
+    public interface IWirelessInterface
     {
-        void ConnectDhcp();
-        void Request();
+        
     }
 
-    public class WirelessController : IWirelessController
+    public class WirelessController : IWirelessInterface
     {
         public void ConnectDhcp()
         {

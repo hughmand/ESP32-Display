@@ -34,7 +34,7 @@ namespace ESP32Display
         /// <summary>
         /// Minimum time between attempting to refresh the screen, in milliseconds
         /// </summary>
-        public static int RefreshDelay = 500; 
+        public static int RefreshDelay = 200; 
 
         public static byte Brightness = (byte)Intensity.MaximumBrightness;
         /// <summary>
