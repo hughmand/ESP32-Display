@@ -40,8 +40,9 @@ namespace ESP32Display
                     Array.Copy(Apples, newApples, Apples.Length);
                     newApples[Apples.Length] = appleCoordinate;
                     Apples = newApples;
+                    Console.WriteLine("New apple dropped");
                 }
-                    return;
+                return;
             }  
         }
         

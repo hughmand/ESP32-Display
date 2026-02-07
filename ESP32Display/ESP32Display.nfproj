@@ -22,6 +22,7 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Console.cs" />
     <Compile Include="Outputs\DisplayManager.cs" />
     <Compile Include="Elements\ClockElement.cs" />
     <Compile Include="Elements\ElementCollection.cs" />
@@ -39,6 +40,9 @@
     <Compile Include="PixelMappingHelper.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\ThreeByThreeCharacterElement.cs" />
+    <Compile Include="Resources.cs" />
+    <Compile Include="RiverLevels\RiverLevel.cs" />
+    <Compile Include="RiverLevels\RiverLevelJsonDeserializer.cs" />
     <Compile Include="Screens\ClockScreen.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="Configuration.cs" />
@@ -54,6 +58,8 @@
     <Compile Include="Snake\SnakeSettings.cs" />
     <Compile Include="State\StateProperties.cs" />
     <Compile Include="State\SystemState.cs" />
+    <Compile Include="Wireless\CachingRiverLevelProvider.cs" />
+    <Compile Include="Wireless\RiverLevelDataProvider.cs" />
     <Compile Include="Wireless\WirelessController.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Outputs\DisplayHardwareController.cs" />
@@ -61,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Outputs\DisplaySoftwareController.cs" />
     <Compile Include="Workers\MainWorker.cs" />
+    <Compile Include="Workers\RiverWorker.cs" />
     <Compile Include="Workers\SnakeWorker.cs" />
     <Compile Include="Workers\Worker.cs" />
   </ItemGroup>
@@ -70,6 +77,9 @@
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.17.11\lib\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.Json">
+      <HintPath>..\packages\nanoFramework.Json.2.2.203\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.32\lib\nanoFramework.Runtime.Events.dll</HintPath>

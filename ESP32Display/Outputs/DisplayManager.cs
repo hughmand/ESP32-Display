@@ -46,16 +46,19 @@ namespace ESP32Display
 
         public void SetPreFrameTask(FrameTask task)
         {
+            Console.WriteLine("Pre-frame task registered");
             _preFrameTask = task;
         }
 
         public void SetPostFrameTask(FrameTask task)
         {
+            Console.WriteLine("Post-frame task registered");
             _postFrameTask = task;
         }
 
         public void ClearFrameTasks()
         {
+            Console.WriteLine("Cleared frame tasks");
             _preFrameTask = null;
             _postFrameTask = null;
         }
@@ -68,7 +71,7 @@ namespace ESP32Display
             } 
             catch (Exception e)
             {
-                Debug.WriteLine("Exception when running pre-frame task: " + e.ToString());
+                Console.WriteLine("Exception when running pre-frame task: " + e.ToString());
             }
         }
 
@@ -80,7 +83,7 @@ namespace ESP32Display
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Exception when running post-frame task: " + e.ToString());
+                Console.WriteLine("Exception when running post-frame task: " + e.ToString());
             }
         }
 

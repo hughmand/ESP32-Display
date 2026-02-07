@@ -7,7 +7,7 @@
         PauseScreen _pauseScreen;
         NewGameScreen _newGameScreen;
 
-        public SnakeWorker(DisplayManager displayManager, SystemState systemState, Worker parentWorker, IPulseOutput buzzer, IInputCollection inputCollection) : base(displayManager, systemState, parentWorker, buzzer, inputCollection)
+        public SnakeWorker(DisplayManager displayManager, Worker parentWorker, IPulseOutput buzzer, IInputCollection inputCollection) : base(displayManager, parentWorker, buzzer, inputCollection)
         {
             _game = new SnakeGame();
 
@@ -18,11 +18,13 @@
 
         public override void Run()
         {
+            Console.WriteLine("Snake worker started");
             NewGame();
         }
 
         private void NewGame()
         {
+            Console.WriteLine("Creating new game");
             _displayManager.Screen = _newGameScreen;
             _game = new SnakeGame();
             _snakeScreen = new SnakeScreen(_game);
@@ -36,6 +38,7 @@
 
         private void Play()
         {
+            Console.WriteLine("Begin playing");
             _inputCollection.UnsubscribeAll();
             _inputCollection.Subscribe(InputLabel.Up, _game.MoveUp);
             _inputCollection.Subscribe(InputLabel.Down, _game.MoveDown);
@@ -47,13 +50,18 @@
             _displayManager.SetPreFrameTask(() => 
             {
                 _game.NextState();
-                if (_game.GameOver) NewGame();
+                if (_game.GameOver)
+                {
+                    Console.WriteLine("Game terminated");
+                    NewGame();
+                }
             });
             _displayManager.Screen = _snakeScreen;
         }
 
         public void Pause()
         {
+            Console.WriteLine("Game paused");
             _displayManager.ClearFrameTasks();
             _inputCollection.UnsubscribeAll();
             _displayManager.Screen = _pauseScreen;

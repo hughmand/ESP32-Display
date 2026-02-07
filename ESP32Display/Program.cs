@@ -7,21 +7,39 @@ namespace ESP32Display
     {
         public static void Main()
         {
-            IPulseOutput buzzer = new PulseOutput(Configuration.BuzzerPinNumber, 200);
-            IPulseOutput onBoardLED = new PulseOutput(Configuration.OnBoardLEDPinNumber, 200);
-            onBoardLED.Pulse(3, 100);
+            try
+            {
+                Console.WriteLine("Starting...");
+                Console.WriteLine("Setting up output");
+                IPulseOutput buzzer = new PulseOutput(Configuration.BuzzerPinNumber, 200);
+                IPulseOutput onBoardLED = new PulseOutput(Configuration.OnBoardLEDPinNumber, 200);
 
-            var systemState = new SystemState();
+                onBoardLED.Pulse(3, 100);
 
-            WirelessController wirelessController = new WirelessController();
+                Console.WriteLine("Setting up wireless");
+                WirelessController wirelessController = new WirelessController();
+                wirelessController.TryConnect();
 
-            IInputCollection inputCollection = new InputCollection(onBoardLED, Configuration.ButtonPinNumbers);
+                Console.WriteLine("Setting up input");
+                IInputCollection inputCollection = new InputCollection(onBoardLED, Configuration.ButtonPinNumbers);
+
+                Console.WriteLine("Setting up display");
+                DisplayManager displayManager = new DisplayManager(Configuration.DisplayDataPinNumber, Configuration.DisplayCSPinNumber, Configuration.DisplayCLKPinNumber);
+
+                Console.WriteLine("Setting up worker");
+                Worker mainWorker = new MainWorker(wirelessController, displayManager, buzzer, inputCollection);
+
+                Console.WriteLine("Startup completed!");
+                Console.WriteLine("-----------------");
+
+                displayManager.StartThread();
+                mainWorker.Run();
+            }
+            catch (Exception e) 
+            {
+                Console.WriteException(e);
+            }
             
-            DisplayManager displayManager = new DisplayManager(Configuration.DisplayDataPinNumber, Configuration.DisplayCSPinNumber, Configuration.DisplayCLKPinNumber);
-            Worker mainWorker = new MainWorker(displayManager, systemState, buzzer, inputCollection);
-
-            displayManager.StartThread();
-            mainWorker.Run();
         }
     }
 }

@@ -24,6 +24,11 @@
         {
             Value = state;
         }
+
+        public override string ToString()
+        {
+            return Value ? "True" : "False";
+        }
     }
     public class CharState
     {

@@ -83,9 +83,9 @@ namespace ESP32Display
                 {
                     rowString += Pixels[j][i] ? "1" : "0";
                 }
-                Debug.WriteLine(rowString);
+                Console.WriteLine(rowString);
             }
-            Debug.WriteLine(string.Empty);
+            Console.WriteLine(string.Empty);
         }
     }
 }

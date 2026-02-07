@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace ESP32Display
 {
@@ -9,9 +8,9 @@ namespace ESP32Display
         MaximumBrightness = 0xf,
     }
 
-    enum DisplayRefreshPattern
+    public enum DisplayRefreshPattern
     {
-        TopToBottom, 
+        TopToBottom,
         BottomToTop,
         SplitInwards,
         SplitOutwards
@@ -21,8 +20,10 @@ namespace ESP32Display
     /// Contains values used for configuration that cannot be changed during operation.
     /// Easier to have here than in a separate configuration file, as all need to be deployed to the flash memory together.
     /// </summary>
-    static class Configuration
+    public static class Configuration
     {
+        public static bool DebugConsole = true;
+        public static string LoggingTimeFormat = "[HH:mm:ss]";
         /// <summary>
         /// Changes the order in which the rows on the LED display update.
         /// </summary>
@@ -34,7 +35,7 @@ namespace ESP32Display
         /// <summary>
         /// Minimum time between attempting to refresh the screen, in milliseconds
         /// </summary>
-        public static int RefreshDelay = 200; 
+        public static int RefreshDelay = 200;
 
         public static byte Brightness = (byte)Intensity.MaximumBrightness;
         /// <summary>
@@ -51,5 +52,32 @@ namespace ESP32Display
         public static int DisplayCSPinNumber = 18;
 
         public static bool TwentyFourHourClockFormat = true;
+
+        public static string WifiSsid = "";
+        public static string WifiPassword = "";
+
+    }
+
+    public struct RiverIdentifier
+    {
+        public string ShortName;
+        public string Name;
+        public string Guid;
+    }
+
+    public static class RiverLevelAPIConfiguration
+    {
+        public static string BaseService = "https://environment.data.gov.uk/hydrology/id/measures";
+        public static string ReadingsSuffix = "readings";
+        public static string TimeSeriesSuffix = "level-i-900-m-qualified"; //TODO: extend to support more time series, variable by river
+
+        public static RiverIdentifier[] Rivers = new RiverIdentifier[] {
+            new RiverIdentifier
+            {
+                ShortName = "Dart",
+                Name = "River Dart",
+                Guid = "e6f51f9c-14c9-4ee4-8bbe-9a934236492a"
+            }
+        };
     }
 }

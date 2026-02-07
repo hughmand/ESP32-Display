@@ -38,6 +38,7 @@
 
         protected void ConfigureHardware()
         {
+            Console.WriteLine("Initialising LED display");
             PrepareAndSendInstructionForAllScreens(Command.DisplayTest, 0);
             PrepareAndSendInstructionForAllScreens(Command.ScanLimit, 7);
             PrepareAndSendInstructionForAllScreens(Command.Intensity, (int)Configuration.Brightness);

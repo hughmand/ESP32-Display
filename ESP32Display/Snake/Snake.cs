@@ -39,11 +39,13 @@ namespace ESP32Display
             {
                 _direction = direction;
                 _changingDirection = true;
+                Console.WriteLine("Snake direction: " + direction.ToString());
             }
         }
 
         public void Progress()
         {
+            Console.WriteLine("Moving snake forward");
             var newSnakeHead = GetNewSnakeHead();
             if (TailLength > 0)
             {

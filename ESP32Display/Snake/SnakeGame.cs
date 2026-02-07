@@ -20,12 +20,14 @@
         {
             if (Orchard.AppleConsumed(Snake.Head))
             {
+                Console.WriteLine("Apple consumed");
                 Snake.Grow();
             }
         }
 
         public void NextState()
         {
+            Console.WriteLine("Game moving into next state");
             Snake.Progress();
             TryEatApple();
             Orchard.TryDropApple();
