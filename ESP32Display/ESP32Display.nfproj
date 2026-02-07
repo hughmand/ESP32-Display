@@ -40,7 +40,6 @@
     <Compile Include="PixelMappingHelper.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\ThreeByThreeCharacterElement.cs" />
-    <Compile Include="Resources.cs" />
     <Compile Include="RiverLevels\RiverLevel.cs" />
     <Compile Include="RiverLevels\RiverLevelJsonDeserializer.cs" />
     <Compile Include="Screens\ClockScreen.cs" />
